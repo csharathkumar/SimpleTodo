@@ -5,7 +5,7 @@ SimpleToDo is an android app that allows building a todo list and basic todo ite
 
 Submitted by: Sharath C
 
-Time spent: 2 hours spent in total
+Time spent: 3 hours spent in total
 
 ## User Stories
 
@@ -27,10 +27,8 @@ Here's a walkthrough of implemented user stories:
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
-## Notes
-
 #Describe any challenges encountered while building the app.
-
+    [] Understanding and working with git and github.
 ## License
 
     Copyright [2016] [Sharath C]
