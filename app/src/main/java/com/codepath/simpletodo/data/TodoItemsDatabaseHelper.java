@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.codepath.simpletodo.model.Enums;
 import com.codepath.simpletodo.model.TodoItem;
 
 import java.util.ArrayList;
@@ -19,12 +20,16 @@ public class TodoItemsDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = TodoItemsDatabaseHelper.class.getSimpleName();
     private static TodoItemsDatabaseHelper sInstance;
     private static final String DATABASE_NAME = "todo_database";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String TODO_ITEMS_TABLE = "todo_items";
 
     private static final String KEY_TODO_ITEM_ID = "todo_item_id";
     private static final String KEY_TODO_ITEM_NAME = "todo_item_name";
+    private static final String KEY_TODO_ITEM_DESCRIPTION = "todo_item_description";
+    private static final String KEY_TODO_ITEM_PRIORITY = "todo_item_priority";
+    private static final String KEY_TODO_ITEM_STATUS = "todo_item_status";
+    private static final String KEY_TODO_ITEM_DUE_DATE = "todo_item_due_date";
 
     public static TodoItemsDatabaseHelper getsInstance(Context context){
         if(sInstance == null){
@@ -41,7 +46,11 @@ public class TodoItemsDatabaseHelper extends SQLiteOpenHelper {
         String CREATE_TODO_ITEMS_TABLE = "CREATE TABLE " + TODO_ITEMS_TABLE +
                 "(" +
                     KEY_TODO_ITEM_ID + " INTEGER PRIMARY KEY, "+
-                    KEY_TODO_ITEM_NAME + " TEXT " +
+                    KEY_TODO_ITEM_NAME + " TEXT,  " +
+                    KEY_TODO_ITEM_DESCRIPTION + " TEXT,  " +
+                    KEY_TODO_ITEM_PRIORITY + " INTEGER, " +
+                    KEY_TODO_ITEM_STATUS + " INTEGER , " +
+                    KEY_TODO_ITEM_DUE_DATE + " INTEGER " +
                 ")";
         Log.d(TAG,"The create table query is - "+CREATE_TODO_ITEMS_TABLE);
         db.execSQL(CREATE_TODO_ITEMS_TABLE);
@@ -50,7 +59,19 @@ public class TodoItemsDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if(oldVersion == 1 && newVersion == 2){
+            String updateQuery = "ALTER TABLE "+TODO_ITEMS_TABLE + " ADD "+KEY_TODO_ITEM_DESCRIPTION+" TEXT ";
+            db.execSQL(updateQuery);
 
+            updateQuery = "ALTER TABLE "+TODO_ITEMS_TABLE + " ADD "+KEY_TODO_ITEM_STATUS+" INTEGER DEFAULT 0";
+            db.execSQL(updateQuery);
+
+            updateQuery = "ALTER TABLE "+TODO_ITEMS_TABLE + " ADD "+KEY_TODO_ITEM_PRIORITY+" INTEGER DEFAULT 0";
+            db.execSQL(updateQuery);
+
+            updateQuery = "ALTER TABLE "+TODO_ITEMS_TABLE + " ADD "+KEY_TODO_ITEM_DUE_DATE+" INTEGER DEFAULT 0";
+            db.execSQL(updateQuery);
+        }
     }
 
     public int addTodoItem(TodoItem todoItem){
@@ -60,6 +81,10 @@ public class TodoItemsDatabaseHelper extends SQLiteOpenHelper {
         try{
             ContentValues contentValues = new ContentValues();
             contentValues.put(KEY_TODO_ITEM_NAME,todoItem.todoItemName);
+            contentValues.put(KEY_TODO_ITEM_DESCRIPTION,todoItem.todoItemDescription);
+            contentValues.put(KEY_TODO_ITEM_PRIORITY,todoItem.todoItemPriority.getPriorityLevel());
+            contentValues.put(KEY_TODO_ITEM_STATUS,todoItem.todoItemStatus.getItemStatus());
+            contentValues.put(KEY_TODO_ITEM_DUE_DATE,todoItem.todoItemDueDateLong);
             long rowId = database.insertOrThrow(TODO_ITEMS_TABLE,null,contentValues);
             returnValue = ((int) rowId);
             database.setTransactionSuccessful();
@@ -79,6 +104,11 @@ public class TodoItemsDatabaseHelper extends SQLiteOpenHelper {
             ContentValues contentValues = new ContentValues();
             contentValues.put(KEY_TODO_ITEM_ID,todoItem.todoItemId);
             contentValues.put(KEY_TODO_ITEM_NAME,todoItem.todoItemName);
+            contentValues.put(KEY_TODO_ITEM_DESCRIPTION,todoItem.todoItemDescription);
+            contentValues.put(KEY_TODO_ITEM_PRIORITY,todoItem.todoItemPriority.getPriorityLevel());
+            contentValues.put(KEY_TODO_ITEM_STATUS,todoItem.todoItemStatus.getItemStatus());
+            contentValues.put(KEY_TODO_ITEM_DUE_DATE,todoItem.todoItemDueDateLong);
+
             int rows = database.update(TODO_ITEMS_TABLE,contentValues,KEY_TODO_ITEM_ID+"=?",new String[]{String.valueOf(todoItem.todoItemId)});
             if(rows == 1){
                 updateSucceeded = true;
@@ -122,6 +152,10 @@ public class TodoItemsDatabaseHelper extends SQLiteOpenHelper {
                    TodoItem todoItem = new TodoItem();
                    todoItem.todoItemId = cursor.getInt(cursor.getColumnIndex(KEY_TODO_ITEM_ID));
                    todoItem.todoItemName = cursor.getString(cursor.getColumnIndex(KEY_TODO_ITEM_NAME));
+                   todoItem.todoItemDescription = cursor.getString(cursor.getColumnIndex(KEY_TODO_ITEM_DESCRIPTION));
+                   todoItem.todoItemPriority = Enums.TodoItemPriority.valueOf(cursor.getInt(cursor.getColumnIndex(KEY_TODO_ITEM_PRIORITY)));
+                   todoItem.todoItemStatus = Enums.TodoItemStatus.valueOf(cursor.getInt(cursor.getColumnIndex(KEY_TODO_ITEM_STATUS)));
+                   todoItem.todoItemDueDateLong = cursor.getLong(cursor.getColumnIndex(KEY_TODO_ITEM_DUE_DATE));
                    todoItemList.add(todoItem);
                }while(cursor.moveToNext());
            }

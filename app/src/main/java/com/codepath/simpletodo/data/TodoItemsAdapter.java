@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.codepath.simpletodo.R;
@@ -18,8 +19,10 @@ import java.util.List;
  */
 public class TodoItemsAdapter extends ArrayAdapter<TodoItem> {
     private static class ViewHolder{
-        TextView itemIdTV;
+        TextView itemDueDate;
         TextView itemNameTV;
+        CheckBox itemDoneCB;
+        TextView itemPriorityTV;
     }
     public TodoItemsAdapter(Context context, List<TodoItem> todoItems){
         super(context,0,todoItems);
@@ -35,14 +38,17 @@ public class TodoItemsAdapter extends ArrayAdapter<TodoItem> {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.todo_item_row, parent, false);
-            viewHolder.itemIdTV = (TextView) convertView.findViewById(R.id.todoItemIdTV);
+            viewHolder.itemDueDate = (TextView) convertView.findViewById(R.id.todoItemDueDate);
             viewHolder.itemNameTV = (TextView) convertView.findViewById(R.id.todoItemNameTV);
+            viewHolder.itemDoneCB = (CheckBox) convertView.findViewById(R.id.itemDoneCB) ;
+            viewHolder.itemPriorityTV = (TextView) convertView.findViewById(R.id.priorityTV);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.itemIdTV.setText(String.valueOf(todoItem.todoItemId));
+        viewHolder.itemDueDate.setText(String.valueOf(todoItem.todoItemDueDateLong));
         viewHolder.itemNameTV.setText(todoItem.todoItemName);
+        viewHolder.itemPriorityTV.setText(todoItem.todoItemPriority.toString());
         // Return the completed view to render on screen
         return convertView;
     }

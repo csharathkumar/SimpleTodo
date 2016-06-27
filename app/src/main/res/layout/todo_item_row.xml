@@ -1,20 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp" >
 
-    <TextView
+    <CheckBox
+        android:id="@+id/itemDoneCB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:padding="5dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="8dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        />
+
+    <TextView
+        android:id="@+id/todoItemNameTV"
+        android:text="Task Name is so big that it might occupy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/itemDoneCB"
+        android:layout_toRightOf="@+id/itemDoneCB"
+        android:layout_toLeftOf="@+id/priorityTV"
+        android:ellipsize="middle"
         android:textSize="@dimen/list_item_text_size"
-        android:id="@+id/todoItemNameTV" />
+        android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/todoItemDueDate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Task Due Date"
+        android:layout_below="@id/todoItemNameTV"
+        android:layout_marginTop="1dip"
+        android:layout_toRightOf="@+id/itemDoneCB"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/priorityTV"
+        android:text="HIGH"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:visibility="gone"
-        android:id="@+id/todoItemIdTV" />
-</LinearLayout>
+        android:layout_alignTop="@+id/todoItemNameTV"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/list_item_text_size"
+        android:textStyle="bold" />
+
+</RelativeLayout>

@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">SimpleTodo</string>
+
+    <string-array name="task_status_array">
+        <item>To-Do</item>
+        <item>Done</item>
+    </string-array>
+
+    <string-array name="task_priority_array">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+    </string-array>
 </resources>
