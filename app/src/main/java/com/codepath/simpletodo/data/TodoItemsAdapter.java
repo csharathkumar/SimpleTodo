@@ -12,6 +12,8 @@ import com.codepath.simpletodo.R;
 import com.codepath.simpletodo.model.Enums;
 import com.codepath.simpletodo.model.TodoItem;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,7 +50,16 @@ public class TodoItemsAdapter extends ArrayAdapter<TodoItem> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.itemDueDate.setText(String.valueOf(todoItem.todoItemDueDateLong));
+        if(todoItem.todoItemDueDateLong > 0){
+            viewHolder.itemDueDate.setVisibility(View.VISIBLE);
+            DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
+            String formattedDate = dateFormat.format(new Date(todoItem.todoItemDueDateLong));
+            viewHolder.itemDueDate.setText(formattedDate);
+        }else{
+            viewHolder.itemDueDate.setVisibility(View.GONE);
+        }
+
+
         viewHolder.itemNameTV.setText(todoItem.todoItemName);
         viewHolder.itemPriorityTV.setText(todoItem.todoItemPriority.toString());
         if(todoItem.todoItemPriority == Enums.TodoItemPriority.HIGH){

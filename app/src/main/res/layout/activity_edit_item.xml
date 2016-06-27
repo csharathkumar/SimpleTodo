@@ -4,6 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+              android:paddingBottom="@dimen/activity_vertical_margin"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.codepath.simpletodo.EditItemActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,10 +42,12 @@
             android:layout_height="wrap_content"/>
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:padding="10dp"
+            android:background="@drawable/boxed_edit_text"
             android:id="@+id/taskDescriptionET"
             android:inputType="textMultiLine"
+            android:scrollHorizontally="false"
             />
     </LinearLayout>
     <LinearLayout
@@ -50,18 +56,13 @@
         android:orientation="horizontal"
         >
         <TextView
-            android:text="Due date"
+            android:id="@+id/dueDateTV"
+            android:text="Set Due date"
             android:textSize="24sp"
             android:padding="10dp"
+            android:textColor="@android:color/holo_blue_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="Set Due date"
-            android:id="@+id/dueDateET"
-            />
     </LinearLayout>
 
     <LinearLayout

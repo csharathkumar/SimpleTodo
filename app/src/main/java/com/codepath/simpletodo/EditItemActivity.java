@@ -9,13 +9,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.codepath.simpletodo.model.Enums;
 import com.codepath.simpletodo.model.TodoItem;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.util.Date;
 
-public class EditItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class EditItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialogFragment.Callbacks {
     public static final String EXTRA_TASK = "task";
     public static final String EXTRA_TASK_POSITION = "task_position";
     public static final String EXTRA_IS_EDIT = "is_edit";
@@ -28,6 +31,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
     Spinner statusSpinner;
     EditText taskNameET;
     EditText taskDescriptionET;
+    TextView setDueDateTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
         }else{
             mTodoItem = new TodoItem();
         }
-
+        setDueDateTV = (TextView) findViewById(R.id.dueDateTV);
         prioritySpinner = (Spinner) findViewById(R.id.prioritySpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -79,6 +83,21 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
 
         taskDescriptionET = (EditText) findViewById(R.id.taskDescriptionET);
         taskDescriptionET.setText(mTodoItem.todoItemDescription);
+        if(mTodoItem.todoItemDueDateLong > 0){
+            DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(this);
+            String formattedDate = dateFormat.format(new Date(mTodoItem.todoItemDueDateLong));
+            setDueDateTV.setText("Due on "+formattedDate);
+        }
+        setDueDateTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialogFragment datePickerDialogFragment = DatePickerDialogFragment.newInstance(mTodoItem.todoItemDueDateLong);
+                datePickerDialogFragment.setCancelable(false);
+                //datePickerDialogFragment.setTargetFragment(PublicShareDetailsFragment.this, DatePickerDialogFragment.SET_EXPIRY_REQUEST_CODE);
+                datePickerDialogFragment.show(getSupportFragmentManager(),"Pick a date");
+            }
+        });
+
     }
 
     public void saveEditedItem(View view) {
@@ -118,5 +137,11 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void onDateSet(long dueDateTS, String dueDateString) {
+        setDueDateTV.setText("Due on "+dueDateString);
+        mTodoItem.todoItemDueDateLong = dueDateTS;
     }
 }
