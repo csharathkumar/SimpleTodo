@@ -45,7 +45,7 @@
         android:layout_alignTop="@+id/todoItemNameTV"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:textSize="@dimen/list_item_text_size"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
 </RelativeLayout>

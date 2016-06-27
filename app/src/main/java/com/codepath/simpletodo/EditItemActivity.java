@@ -1,15 +1,14 @@
 package com.codepath.simpletodo;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.codepath.simpletodo.model.Enums;
 import com.codepath.simpletodo.model.TodoItem;
@@ -34,6 +33,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         isEdit = getIntent().getBooleanExtra(EXTRA_IS_EDIT,false);
         mPosition = getIntent().getIntExtra(EXTRA_TASK_POSITION,0);
         if(isEdit){

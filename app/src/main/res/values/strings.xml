@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SimpleTodo</string>
+    <string name="app_name">Todo List</string>
 
     <string-array name="task_status_array">
         <item>To-Do</item>

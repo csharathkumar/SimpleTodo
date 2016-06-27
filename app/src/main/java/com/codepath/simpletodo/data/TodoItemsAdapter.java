@@ -9,15 +9,16 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.codepath.simpletodo.R;
+import com.codepath.simpletodo.model.Enums;
 import com.codepath.simpletodo.model.TodoItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Sharath on 6/25/16.
  */
 public class TodoItemsAdapter extends ArrayAdapter<TodoItem> {
+    Context mContext;
     private static class ViewHolder{
         TextView itemDueDate;
         TextView itemNameTV;
@@ -26,6 +27,7 @@ public class TodoItemsAdapter extends ArrayAdapter<TodoItem> {
     }
     public TodoItemsAdapter(Context context, List<TodoItem> todoItems){
         super(context,0,todoItems);
+        mContext = context;
     }
 
     @Override
@@ -49,6 +51,13 @@ public class TodoItemsAdapter extends ArrayAdapter<TodoItem> {
         viewHolder.itemDueDate.setText(String.valueOf(todoItem.todoItemDueDateLong));
         viewHolder.itemNameTV.setText(todoItem.todoItemName);
         viewHolder.itemPriorityTV.setText(todoItem.todoItemPriority.toString());
+        if(todoItem.todoItemPriority == Enums.TodoItemPriority.HIGH){
+            viewHolder.itemPriorityTV.setTextColor(mContext.getResources().getColor(R.color.priority_high_color));
+        }else if(todoItem.todoItemPriority == Enums.TodoItemPriority.MEDIUM){
+            viewHolder.itemPriorityTV.setTextColor(mContext.getResources().getColor(R.color.priority_medium_color));
+        }else{
+            viewHolder.itemPriorityTV.setTextColor(mContext.getResources().getColor(R.color.priority_low_color));
+        }
         // Return the completed view to render on screen
         return convertView;
     }
