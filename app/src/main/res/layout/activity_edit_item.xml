@@ -102,12 +102,5 @@
         </Spinner>
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        android:layout_gravity="center_horizontal"
-        android:onClick="saveEditedItem"
-        android:padding="15dp"
-        android:id="@+id/save" />
+
 </LinearLayout>

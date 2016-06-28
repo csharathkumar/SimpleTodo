@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -100,7 +102,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
-    public void saveEditedItem(View view) {
+    public void saveEditedItem() {
         String editedTask = taskNameET.getText().toString();
         Intent returnData = new Intent();
         mTodoItem.todoItemName = editedTask;
@@ -111,6 +113,21 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
         finish();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.edit_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_save){
+            saveEditedItem();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Log.d(TAG,"Parent view id is - "+parent.getId());
